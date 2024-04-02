@@ -52,7 +52,7 @@ import './p5.Geometry';
  * <div>
  * <code>
  * const octahedron_model = `
- *  v 0.000000E+00 0.000000E+00 40.0000
+ * v 0.000000E+00 0.000000E+00 40.0000
  * v 22.5000 22.5000 0.000000E+00
  * v 22.5000 -22.5000 0.000000E+00
  * v -22.5000 -22.5000 0.000000E+00
@@ -67,24 +67,24 @@ import './p5.Geometry';
  * f     6 3 2
  * f     6 2 1
  * f     6 1 5
- * `
+ * `;
  * //draw a spinning octahedron
  * let octahedron;
  *
  * function preload() {
- * octahedron = createModel(octahedron_model);
+ *   octahedron = createModel(octahedron_model);
  * }
  *
  * function setup() {
- * createCanvas(100, 100, WEBGL);
- * describe('Vertically rotating 3-d octahedron.');
+ *   createCanvas(100, 100, WEBGL);
+ *   describe('Vertically rotating 3-d octahedron.');
  * }
  *
  * function draw() {
- * background(200);
- * rotateX(frameCount * 0.01);
- * rotateY(frameCount * 0.01);
- * model(octahedron);
+ *   background(200);
+ *   rotateX(frameCount * 0.01);
+ *   rotateY(frameCount * 0.01);
+ *   model(octahedron);
  *}
  * </code>
  * </div>
@@ -140,28 +140,26 @@ p5.prototype.createModel = function(modelString, options) {
       fileType = arguments[3];
     }
   }
-  
   const model = new p5.Geometry();
   model.gid = `octa.obj|${normalize}`;
 
   if (fileType.match('stl')) {
     try {
       let uint8array = new TextEncoder().encode(modelString);
-      let arrayBuffer = uint8array.buffer
+      let arrayBuffer = uint8array.buffer;
       parseSTL(model, arrayBuffer);
-  
       if (normalize) {
         model.normalize();
       }
-  
+
       if (flipU) {
         model.flipU();
       }
-  
+
       if (flipV) {
         model.flipV();
       }
-  
+
       if (typeof successCallback === 'function') {
         successCallback(model);
       }
@@ -174,7 +172,6 @@ p5.prototype.createModel = function(modelString, options) {
       return;
     }
   } else if (fileType.match('obj')) {
-
     try {
       const lines = modelString.split('\n');
       parseObj(model, lines);
@@ -190,7 +187,6 @@ p5.prototype.createModel = function(modelString, options) {
       if (flipV) {
         model.flipV();
       }
-  
       if (typeof successCallback === 'function') {
         successCallback(model);
       }
@@ -202,7 +198,6 @@ p5.prototype.createModel = function(modelString, options) {
       }
       return;
     }
-
   } else {
     p5._friendlyFileLoadError(3, modelString);
     if (failureCallback) {
